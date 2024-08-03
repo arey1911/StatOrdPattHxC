@@ -4,7 +4,7 @@ This package computes the asymptotic variance of the Shannon, Rényi and Tsallis
 # Usage
 You need updated versions of R and RStudio.
 Clone the repository to a local folder. 
-RStudio, and make one level above your local copy the working directory.
+Open RStudio, and make the working directory one level above your local copy.
 In the console, issue the command
 > install("StatOrdPattHxC/", build=TRUE, build_vignettes=TRUE)
 > 
