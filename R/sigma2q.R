@@ -2,8 +2,8 @@
 #'
 #' @param TS time series
 #' @param emb embedding dimension
-#' @param ent type of entropy: S (Shannon), T (Tsallis, \eqn{beta} is required), R (Rényi, \eqn{beta} is required), or F (Fisher)
-#' @param beta the parameter for the Tsallis and Rényi entropies
+#' @param ent type of entropy: S (Shannon, default), T (Tsallis, \eqn{beta} is required), R (Rényi, \eqn{beta} is required), or F (Fisher)
+#' @param beta the parameter for the Tsallis and Rényi entropies (default 1.5)
 #' @returns The asymptotic variance
 #' 
 #' @export
@@ -18,7 +18,7 @@
 #' sigma2q(y, emb=4, ent="S")
 #' 
 
-sigma2q <- function(TS, emb, ent, beta){
+sigma2q <- function(TS, emb, ent="S", beta=1.5){
 
   # Find the number of OP
   n <- length(TS) - emb + 1

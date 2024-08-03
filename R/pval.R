@@ -3,13 +3,13 @@
 #' @param TSx a time series
 #' @param TSy another time series
 #' @param emb embedding dimension
-#' @param ent type of entropy: S (Shannon), T (Tsallis, beta is required), R (Rényi, beta is required), or F (Fisher)
-#' @param beta parameter for the Tsallis and Rényi entropy
+#' @param ent type of entropy: S (Shannon, default), T (Tsallis, beta is required), R (Rényi, beta is required), or F (Fisher)
+#' @param beta parameter for the Tsallis and Rényi entropy (default 0.9)
 #'
 #' @export
 #'
 
-pval <- function(TSx, TSy, emb, ent, beta){
+pval <- function(TSx, TSy, emb, ent="S", beta=0.9){
 
   # Compute the length of the OP sequences
 

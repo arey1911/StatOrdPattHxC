@@ -12,5 +12,7 @@
 #'  \item{Side}{Lower or Upper side of the feasible region (factor, "Lower" and "Upper")}
 #' }
 #' @source <https://dx.doi.org/10.1016/j.physa.2005.11.053>
+#' 
+#' Check this package's vignette for an example.
 #' LinfLsup
 "LinfLsup"

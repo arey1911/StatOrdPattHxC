@@ -46,35 +46,41 @@ The figure below illustrates the two main workflows.
 
 Let us produce three time series: two from the same dynamics (white noise smoothed with a moving averages window of size $31$, shown in green and blue), and a different one (standard normally-distributed white noise, in red).
 
-```{r ThreeTimeSeries, out.width="90%", echo=FALSE, message=FALSE, warning=FALSE}
+```{r ThreeTimeSeries, out.width="90%", echo=TRUE, message=FALSE, warning=FALSE}
 set.seed(1234567890, kind="Mersenne-Twister")
 
 x1 <- mov.av(rnorm(5000), order = 31) # smoothed white noise with moving average
 x2 <- mov.av(rnorm(5000), order = 31) # smoothed white noise with moving average
 wn <- rnorm(4970) # white noise, same size as the vectors above
+```
 
-time.series <- reshape2::melt(data.frame(t=1:4970, wn, x1, x2), 
-                              measure.vars = 2:4)
+```{r Internal-ProcessingThreeTimeSeries, echo=FALSE, message=FALSE, warning=FALSE}
+df <- data.frame(t=1:4970, wn, x1, x2)
+df.molten <- reshape2::melt(df, measure.vars = 2:4)
+df.molten$Type <- as.factor(rep(c("White Noise", "Moving Average 1", "Moving Average 2"), each=4970))
 
-ggplot(subset(time.series, t>1000 & t<1300), aes(x=t, y=value, col=variable)) +
+ggplot(subset(df.molten, t>1000 & t<1300), aes(x=t, y=value, col=Type, group=Type)) +
   geom_line() +
   ggtitle("300 observations of three time series") +
   xlab("Time") +
   ylab("Observations") +
   theme_tufte() +
-  theme(legend.position = "none")
+  theme(legend.position = "top")
 ```
 
 We compute the sequences of ordinal patterns, and from them the histogram of patterns.
 This can be done in a single step.
-The following figure shows the histograms.
 
 ```{r OPsHists, out.width="90%"}
 
 OPprobs.wn <- OPprob(wn, emb=4)
 OPprobs.x1 <- OPprob(x1, emb=4)
 OPprobs.x2 <- OPprob(x2, emb=4)
+```
 
+The following figure shows the histograms.
+
+```{r, Internal-OPsHists, echo=FALSE, messages=FALSE, warning=FALSE}
 OPprobabilities <- reshape2::melt(data.frame(index=1:factorial(4), 
                                              OPprobs.wn, OPprobs.x1, OPprobs.x2),
                                   measure.vars = 2:4)
@@ -142,6 +148,14 @@ knitr::kable(Variances, digits = 4, format.args = list(scientific = TRUE),
 
 # Applying tests
 
+Applying the test for same permutation entropy is straightforward:
+
+```{r ApplyTestSamePermutationEntropy}
+
+entropicTest(wn, x1, emb=4, ent="S") # Time series with different structure
+entropicTest(x1, x2, emb=4, ent="S") # Time series with same structure
+```
+
 # Visualisation
 
 The package provides the lower and upper bounds of points in the Entropy-Complexity plane
@@ -165,9 +179,9 @@ Let us now see the points of the three time series in the $H\times C$ plane alon
 ```{r PointsWithConfidenceIntervals, out.width="100%", echo=FALSE, message=FALSE}
 data("LinfLsup")
 
-wnsub <- wn[1:1000]
-x1sub <- x1[1:1000]
-x2sub <- x2[1:1000]
+wnsub <- wn
+x1sub <- x1
+x2sub <- x2
 
 ShannonEntropies <- c(
   HShannon(OPprob(wnsub, emb=4)),
@@ -182,12 +196,13 @@ StatisticalComplexities <- c(
   )
 
 StandardDeviations <- sqrt(Variances[,1])
+SemiLength <- StandardDeviations/sqrt(1000-4)*qnorm(0.95)
 
 HCPoints <- data.frame(H=ShannonEntropies,
                        C=StatisticalComplexities,
                        STD=StandardDeviations,
-                       Series=as.factor(c("White Noise", rep("Moving Average", 2)))
-                       )
+                       SemiLength=SemiLength,
+                       Series=as.factor(c("White Noise", "Moving Average 1", "Moving Average 2")))
 
 ggplot(subset(LinfLsup, Side=="Lower" & Dimension=="4"), 
        aes(x=H, y=C)) +
@@ -197,7 +212,8 @@ ggplot(subset(LinfLsup, Side=="Lower" & Dimension=="4"),
   xlab(expression(italic(H))) +
   ylab(expression(italic(C))) +
   geom_point(data=HCPoints, aes(x=H, y=C, col=Series)) +
-  xlim(0.9, 1) +
+  geom_errorbarh(data=HCPoints, aes(xmin=H-SemiLength, xmax=H+SemiLength, group=Series, col=Series)) +
+  coord_cartesian(xlim=c(0.925, 1), ylim=c(0, 0.13)) +
   theme_tufte()
 ```
 

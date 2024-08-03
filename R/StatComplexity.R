@@ -28,31 +28,6 @@
 #' StatComplexity(OPprob(y, emb=4))
 #'
 
-# StatComplexity <- function(p){
-#   if(length(p) >= 2 & min(p) >= 0 & sum(p) <= (1+.Machine$double.eps)){
-# 
-#     k <- length(p)
-#     kfactorial <- factorial(k)
-# 
-#     maxQprime <- -2 * (
-#       (kfactorial+1)/kfactorial * log(kfactorial+1) -
-#         2 * log(2*kfactorial) +
-#         log(kfactorial)
-#     )
-# 
-#     Qprime <- sum(
-#       (p-1/k)*log(k*p)
-#     )
-# 
-#     HS <- HShannon(p)
-# 
-#     return(Qprime/maxQprime*HS)
-# 
-#   } else {
-#     print("ERROR: Not a valid probability function")
-#   }
-# }
-
 StatComplexity <- function(p){
   if(length(p) >= 2 & min(p) >= 0 & sum(p) <= (1+.Machine$double.eps)){
     
