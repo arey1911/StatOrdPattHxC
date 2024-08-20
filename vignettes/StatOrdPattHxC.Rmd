@@ -84,13 +84,17 @@ The following figure shows the histograms.
 OPprobabilities <- reshape2::melt(data.frame(index=1:factorial(4), 
                                              OPprobs.wn, OPprobs.x1, OPprobs.x2),
                                   measure.vars = 2:4)
+## Reordering OPprobabilities$variable
+OPprobabilities$variable <- factor(OPprobabilities$variable,
+  levels = c("OPprobs.x1", "OPprobs.x2", "OPprobs.wn"))
 
 ggplot(OPprobabilities, aes(x=index, y=value)) +
-  geom_col() +
+  geom_col(aes(fill=variable), col="black") +
   xlab("Pattern") +
   ylab("Proportion of patterns") +
   facet_wrap(~variable) +
-  theme_tufte()
+  theme_tufte() +
+  theme(legend.position = "none")
 ```
 
 # Computing entropies
@@ -182,11 +186,11 @@ We obtained the sample Shannon entropy $\widehat{H}(\mathbf x)$ with sample asym
 The asymptotic confidence interval at level $1-\alpha$ is
 $$
 \bigg[
-\widehat{H}(\mathbf x) - z_\alpha \frac{s(\mathbf x)}{\sqrt{n-D}},
-\widehat{H}(\mathbf x) + z_\alpha \frac{s(\mathbf x)}{\sqrt{n-D}}
+\widehat{H}(\mathbf x) - z_{\alpha/2} \frac{s(\mathbf x)}{\sqrt{n-D}},
+\widehat{H}(\mathbf x) + z_{\alpha/2} \frac{s(\mathbf x)}{\sqrt{n-D}}
 \bigg],
 $$
-where $z_\alpha$ is the $1-\alpha$ quantile of the standard normal distribution.
+where $z_{\alpha/2}$ is the $1-\alpha/2$ quantile of the standard normal distribution.
 The following code illustrates how to compute and display three entropies with their confidence intervals in the $H\times C$ plane.
 We include the wite noise time series for illustration purposes only.
 
@@ -211,8 +215,9 @@ StatisticalComplexities <- c(
   StatComplexity(OPprob(x2sub, emb=D))
   )
 
+alpha <- 0.05 
 StandardDeviations <- sqrt(Variances[,1])
-SemiLength <- StandardDeviations/sqrt(length(wnsub)-D)*qnorm(0.95) 
+SemiLength <- StandardDeviations/sqrt(length(wnsub)-D)*qnorm(1-alpha/2) 
   # The three time series have the same length, but they could be different
 
 HCPoints <- data.frame(H=ShannonEntropies,
