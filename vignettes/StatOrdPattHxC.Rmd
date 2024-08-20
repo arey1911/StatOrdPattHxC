@@ -29,18 +29,14 @@ library(StatOrdPattHxC)
 
 # Introduction
 
-This package computes statistics of features from Ordinal Patterns.
-Currently, it provides the asymptotic variance of the Shannon, Tsallis, and Rényi entropies, and the Fisher information measure.
-With these variances, the user can apply test to check if two time series originated from similar dynamics
-The package will evolve to produce other statistical characteristics.
+This package computes statistics of features from Ordinal Patterns. Currently, it provides the asymptotic variance of the Shannon, Tsallis, and Rényi entropies, and the Fisher information measure. With these variances, the user can apply test to check if two time series originated from similar dynamics. The package will evolve to produce other statistical characteristics.
 
 The figure below illustrates the two main workflows.
 
-* The user can compute the ordinal patterns, then the entropy (or Fisher information measure), and then the asymptotic variance of the entropy, or
-* Can input two time series, and obtain the $p$-value of the test that verifies the hypothesis that their entropies are comparable.
+-   The user can compute the ordinal patterns, then the entropy (or Fisher information measure), and then the asymptotic variance of the entropy, or
+-   Can input two time series, and obtain the $p$-value of the test that verifies the hypothesis that their entropies are comparable.
 
-![Overview of functions](./Overview.pdf){width=100%}
-
+![Overview of functions](./Overview.pdf){width="100%"}
 
 # Finding patterns
 
@@ -68,8 +64,7 @@ ggplot(subset(df.molten, t>1000 & t<1300), aes(x=t, y=value, col=Type, group=Typ
   theme(legend.position = "top")
 ```
 
-We compute the sequences of ordinal patterns, and from them the histogram of patterns.
-This can be done in a single step.
+We compute the sequences of ordinal patterns, and from them the histogram of patterns. This can be done in a single step.
 
 ```{r OPsHists, out.width="90%"}
 
@@ -99,9 +94,7 @@ ggplot(OPprobabilities, aes(x=index, y=value)) +
 
 # Computing entropies
 
-This package currently has three entropies and the Fisher information measure.
-The input for computing all flavours of entropies, as well as the Fisher information measure, is a histogram.
-We will use the histograms computed in the previous step.
+This package currently has three entropies and the Fisher information measure. The input for computing all flavours of entropies, as well as the Fisher information measure, is a histogram. We will use the histograms computed in the previous step.
 
 ```{r Entropies}
 # White noise
@@ -162,8 +155,7 @@ entropicTest(x1, x2, emb=4, ent="S") # Time series with same structure
 
 # Visualisation
 
-The package provides the lower and upper bounds of points in the Entropy-Complexity plane
-for embedding dimensions between $3$ and $6$.
+The package provides the lower and upper bounds of points in the Entropy-Complexity plane for embedding dimensions between $3$ and $6$.
 
 ```{r Boundaries, out.width="100%"}
 data("LinfLsup")
@@ -180,19 +172,12 @@ ggplot(subset(LinfLsup, Side=="Lower"),
 
 Let us now see the points of the three time series in the $H\times C$ plane along with the confidence intervals for their Shannon entropies.
 
-Assume $\mathbf x$ is the time series under analysis.
-It has length $n$, and the ordinal patters were computed with embedding dimension $D$.
-We obtained the sample Shannon entropy $\widehat{H}(\mathbf x)$ with sample asymptotic variance $s^2(\mathbf x)$.
-The asymptotic confidence interval at level $1-\alpha$ is
-$$
+Assume $\mathbf x$ is the time series under analysis. It has length $n$, and the ordinal patters were computed with embedding dimension $D$. We obtained the sample Shannon entropy $\widehat{H}(\mathbf x)$ with sample asymptotic variance $s^2(\mathbf x)$. The asymptotic confidence interval at level $1-\alpha$ is $$
 \bigg[
 \widehat{H}(\mathbf x) - z_{\alpha/2} \frac{s(\mathbf x)}{\sqrt{n-D}},
 \widehat{H}(\mathbf x) + z_{\alpha/2} \frac{s(\mathbf x)}{\sqrt{n-D}}
 \bigg],
-$$
-where $z_{\alpha/2}$ is the $1-\alpha/2$ quantile of the standard normal distribution.
-The following code illustrates how to compute and display three entropies with their confidence intervals in the $H\times C$ plane.
-We include the wite noise time series for illustration purposes only.
+$$ where $z_{\alpha/2}$ is the $1-\alpha/2$ quantile of the standard normal distribution. The following code illustrates how to compute and display three entropies with their confidence intervals in the $H\times C$ plane. We include the white noise time series for illustration purposes only.
 
 ```{r PointsWithConfidenceIntervals, out.width="100%", echo=TRUE, message=FALSE}
 data("LinfLsup")
@@ -241,6 +226,6 @@ ggplot(subset(LinfLsup, Side=="Lower" & Dimension==as.character(D)),
 
 # Future improvements
 
-* Compute the Statistical Complexity variance
-* Implement critical functions in C++
-* Improve checking the inputs
+-   Compute the Statistical Complexity variance
+-   Implement critical functions in C++
+-   Improve checking the inputs
