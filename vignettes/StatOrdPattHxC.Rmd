@@ -226,6 +226,5 @@ ggplot(subset(LinfLsup, Side=="Lower" & Dimension==as.character(D)),
 
 # Future improvements
 
--   Compute the Statistical Complexity variance
 -   Implement critical functions in C++
 -   Improve checking the inputs
