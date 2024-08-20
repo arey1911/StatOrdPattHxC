@@ -176,27 +176,44 @@ ggplot(subset(LinfLsup, Side=="Lower"),
 
 Let us now see the points of the three time series in the $H\times C$ plane along with the confidence intervals for their Shannon entropies.
 
-```{r PointsWithConfidenceIntervals, out.width="100%", echo=FALSE, message=FALSE}
+Assume $\mathbf x$ is the time series under analysis.
+It has length $n$, and the ordinal patters were computed with embedding dimension $D$.
+We obtained the sample Shannon entropy $\widehat{H}(\mathbf x)$ with sample asymptotic variance $s^2(\mathbf x)$.
+The asymptotic confidence interval at level $1-\alpha$ is
+$$
+\bigg[
+\widehat{H}(\mathbf x) - z_\alpha \frac{s(\mathbf x)}{\sqrt{n-D}},
+\widehat{H}(\mathbf x) + z_\alpha \frac{s(\mathbf x)}{\sqrt{n-D}}
+\bigg],
+$$
+where $z_\alpha$ is the $1-\alpha$ quantile of the standard normal distribution.
+The following code illustrates how to compute and display three entropies with their confidence intervals in the $H\times C$ plane.
+We include the wite noise time series for illustration purposes only.
+
+```{r PointsWithConfidenceIntervals, out.width="100%", echo=TRUE, message=FALSE}
 data("LinfLsup")
+
+D <- 4 # Embedding dimension
 
 wnsub <- wn
 x1sub <- x1
 x2sub <- x2
 
 ShannonEntropies <- c(
-  HShannon(OPprob(wnsub, emb=4)),
-  HShannon(OPprob(x1sub, emb=4)),
-  HShannon(OPprob(x2sub, emb=4))
+  HShannon(OPprob(wnsub, emb=D)),
+  HShannon(OPprob(x1sub, emb=D)),
+  HShannon(OPprob(x2sub, emb=D))
 )
 
 StatisticalComplexities <- c(
-  StatComplexity(OPprob(wnsub, emb=4)),
-  StatComplexity(OPprob(x1sub, emb=4)),
-  StatComplexity(OPprob(x2sub, emb=4))
+  StatComplexity(OPprob(wnsub, emb=D)),
+  StatComplexity(OPprob(x1sub, emb=D)),
+  StatComplexity(OPprob(x2sub, emb=D))
   )
 
 StandardDeviations <- sqrt(Variances[,1])
-SemiLength <- StandardDeviations/sqrt(1000-4)*qnorm(0.95)
+SemiLength <- StandardDeviations/sqrt(length(wnsub)-D)*qnorm(0.95) 
+  # The three time series have the same length, but they could be different
 
 HCPoints <- data.frame(H=ShannonEntropies,
                        C=StatisticalComplexities,
@@ -204,10 +221,10 @@ HCPoints <- data.frame(H=ShannonEntropies,
                        SemiLength=SemiLength,
                        Series=as.factor(c("White Noise", "Moving Average 1", "Moving Average 2")))
 
-ggplot(subset(LinfLsup, Side=="Lower" & Dimension=="4"), 
+ggplot(subset(LinfLsup, Side=="Lower" & Dimension==as.character(D)), 
        aes(x=H, y=C)) +
   geom_line() +
-  geom_line(data=subset(LinfLsup, Side=="Upper" & Dimension=="4"), 
+  geom_line(data=subset(LinfLsup, Side=="Upper" & Dimension==as.character(D)), 
             aes(x=H, y=C)) +
   xlab(expression(italic(H))) +
   ylab(expression(italic(C))) +
