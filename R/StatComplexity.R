@@ -32,6 +32,7 @@ StatComplexity <- function(p){
   if(length(p) >= 2 & min(p) >= 0 & sum(p) <= (1+.Machine$double.eps)){
     
     k <- length(p)
+    p <- p[p>0] # Discard entries with zeroes
     
     Q0 <- -2 / (
       (k+1)/k * log(k+1) -
