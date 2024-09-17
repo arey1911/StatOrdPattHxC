@@ -19,6 +19,7 @@
 #' OPprob(x, emb=4)
 #' OPprob(y, emb=4)
 
+utils::globalVariables("OP")
 
 OPprob <- function(TS, emb){
 

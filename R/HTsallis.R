@@ -30,7 +30,8 @@ HTsallis <- function(p, beta=1.5){
   H <- sum(p - p^beta) / (1 - N^(1-beta))
 
   return(H)} else {
-    print("ERROR: Not a valid probability function")
+    message("ERROR: Not a valid probability function")
+    return(NULL)
   }
 }
 

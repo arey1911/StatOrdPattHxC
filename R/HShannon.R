@@ -33,7 +33,8 @@ HShannon <- function(p){
 
     return(H)
   } else {
-    print("ERROR: Not a valid probability function")
+    message("ERROR: Not a valid probability function")
+    return(NULL)
   }
 }
 

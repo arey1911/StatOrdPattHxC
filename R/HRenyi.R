@@ -31,7 +31,8 @@ HRenyi <- function(p, beta=1.5){
     H <- log(sum(p^beta)) / ((1-beta) * log(N))
 
     return(H)} else {
-      print("ERROR: Not a valid probability function")
+      message("ERROR: Not a valid probability function")
+      return(NULL)
     }
 }
 

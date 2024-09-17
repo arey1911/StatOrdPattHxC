@@ -30,7 +30,8 @@ HFisher <- function(p){
     H <- 4 * sum((sqrt(p1) - sqrt(p2))^2)
 
     return(H)} else {
-      print("ERROR: Not a valid probability function")
+      message("ERROR: Not a valid probability function")
+      return(NULL)
     }
 }
 

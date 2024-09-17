@@ -20,7 +20,8 @@ Encoding: UTF-8
 Imports:
   prodlim,
   dplyr,
-  tibble
+  tibble,
+  utils
 Suggests:
     ggplot2,
     ggthemes,
