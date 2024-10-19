@@ -23,12 +23,13 @@ utils::globalVariables("OP")
 
 OPprob <- function(TS, emb){
 
-  op <- tibble(
+  op <- tibble::tibble(
     OP = factor(OPseq(TS, emb), levels = 1:factorial(emb))
   )
 
   fr <- op %>% count(OP, .drop = FALSE)
-  return(fr$n / sum(fr$n))
+  probs <- fr$n / sum(fr$n)
+  return(probs/sum(probs))
 }
 
 

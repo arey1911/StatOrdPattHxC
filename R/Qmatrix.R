@@ -13,6 +13,8 @@
 #' @param lag the lag
 #' @returns an \eqn{m!\times m!} matrix of probabilities
 #'
+#' @export
+#' 
 
 Qmatrix <- function(TS, emb, lag){
   OP <- OPseq(TS, emb, lag)

@@ -2,7 +2,7 @@
 #'
 #' @param TS time series
 #' @param emb embedding dimension
-#' @param ent type of entropy: S (Shannon, default), T (Tsallis, \eqn{beta} is required), R (Rényi, \eqn{beta} is required), or F (Fisher)
+#' @param ent type of entropy: S (Shannon, default), T (Tsallis, \eqn{\beta} is required), R (Rényi, \eqn{\beta} is required), or F (Fisher)
 #' @param beta the parameter for the Tsallis and Rényi entropies (default 1.5)
 #' @returns The asymptotic variance
 #' 
