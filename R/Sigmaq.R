@@ -9,13 +9,14 @@
 Sigmaq <- function(TS, emb, ent, beta){
   # Compute Sigma matrix
   S <- Sigma(TS, emb)
-
+  
   # Compute vector of probabilities
   qvec <- OPprob(TS, emb)
-
+  qvecPos <- qvec[qvec>0]
+  
   # Compute matrix of partial derivatives
-  J <- PDmatrix(q = qvec, ent, beta)
-
+  J <- PDmatrix(q = qvecPos, ent, beta)
+  
   return(J %*% S %*% t(J))
 }
 
