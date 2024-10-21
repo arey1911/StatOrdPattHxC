@@ -29,7 +29,7 @@ OPprob <- function(TS, emb){
 
   fr <- op %>% count(OP, .drop = FALSE)
   probs <- fr$n / sum(fr$n)
-  return(probs/sum(probs))
+  return(probs)
 }
 
 
