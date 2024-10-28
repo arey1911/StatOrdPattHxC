@@ -17,9 +17,11 @@
 #' 
 
 Qmatrix <- function(TS, emb, lag){
-  OP <- OPseq(TS, emb, lag)
   
   k <- factorial(emb)
+  
+  OP <- OPseq(TS, emb, lag)
+  
   Qfreq <- matrix(0, nrow = k, ncol = k)
   
   for(i in 1:k){
@@ -30,11 +32,7 @@ Qmatrix <- function(TS, emb, lag){
     }
   }
   
-  QfreqR <- Qfreq[rowSums(Qfreq[,]) != 0,]
-  QfreqC <- QfreqR[,colSums(QfreqR[,]) != 0]
-  
-  return(QfreqC / (length(OP) - 1))
+  return(Qfreq / (length(OP) - 1))
 }
-
 
 
