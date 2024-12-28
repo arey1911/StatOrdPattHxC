@@ -226,7 +226,7 @@ ggplot(subset(LinfLsup, Side=="Lower" & Dimension==as.character(D)),
 
 # Statistical Complexity
 
-We have an approximate expression for the Statistical Complexity under the 
+We have an approximate expression for the Statistical Complexity's distribution under the 
 Multinomial model, i.e., for independent patterns.
 This approximation is built upon the asymptotic distribution of the Shannon Entropy 
 under the Multinomial law, and may be used with care for ordinal patterns stemming
@@ -243,26 +243,37 @@ previously defined.
 These series have $5000$ observations.
 We already have the histograms from their ordinal patterns of dimension $4$.
 
+We show now an experiment in which we simulated $R$ time series occurrences following a Multinomial model.
 
-```{r StatComplexityMeanVariance, out.width="100%", echo=TRUE, message=FALSE}
+```{r ComplexityExampleMultinomialModel}
 
-n <- 4970-4
+set.seed(1234567890, kind="Mersenne-Twister")
+p <- 1:20
+p <- p/sum(p)
 
-mu.wn <- meanC(OPprobs.wn, n)
-sd.wn <- sqrt(varC(OPprobs.wn, n))
+R <- 300
+size <- 10000
 
-mu.x1 <- meanC(OPprobs.x1, n)
-sd.x1 <- sqrt(varC(OPprobs.x1, n))
+AsymptoticParameters <- data.frame(
+  AsymptoticMean = meanC(p, size),
+  AsymptoticStd = sqrt(varC(p, size))
+)
 
-mu.x2 <- meanC(OPprobs.x2, n)
-sd.x2 <- sqrt(varC(OPprobs.x2, n))
+Observations <- rmultinom(R, size = size, prob=p)
+Proportions <- apply(X=Observations, MARGIN=2, FUN = function(x) x/sum(x))
 
-(Complexities <- data.frame(mu.wn, mu.x1, mu.x2))
-(StandardDeviantionsComplexities <- data.frame(sd.wn, sd.x1, sd.x2))
-alpha <- 0.05
-SemiLength <- StandardDeviantionsComplexities/sqrt(n)*qnorm(1-alpha/2) 
+Complexities <- apply(X=Proportions, MARGIN=2, FUN=StatComplexity)
+
+ggplot(data.frame(Complexities), aes(x=Complexities)) +
+  geom_histogram(aes(y=after_stat(density)),
+                 fill="white", col="black",
+                 bins=nclass.FD(as.vector(Complexities))) +
+  stat_function(fun=dnorm,
+    args=list(mean=AsymptoticParameters$AsymptoticMean, sd=AsymptoticParameters$AsymptoticStd)) +
+  ylab("Histogram and Asymptotic distribution") +
+  theme_tufte()
+
 ```
-
 
 # Future improvements
 
