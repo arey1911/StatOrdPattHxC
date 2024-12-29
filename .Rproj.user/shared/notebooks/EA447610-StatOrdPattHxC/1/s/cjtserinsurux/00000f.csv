@@ -1,0 +1,4 @@
+"0",""
+"0","OPprobs.wn <- OPprob(wn, emb=4)"
+"0","OPprobs.x1 <- OPprob(x1, emb=4)"
+"0","OPprobs.x2 <- OPprob(x2, emb=4)"

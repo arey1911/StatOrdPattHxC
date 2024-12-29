@@ -1,0 +1,39 @@
+Package: StatOrdPattHxC
+Title: Computes Statistical Properties of Features from Ordinal Patterns
+Version: 0.1
+Authors@R: 
+    c(person(given="Andrea", middle="", family="Rey", "andrea.rey@unahur.edu.ar", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9185-1382")),
+      person(given="Alejandro C.", middle="", family="Frery", "alejandro.frery@vuw.ac.nz", role = c("aut"),
+           comment = c(ORCID = "0000-0002-8002-5341")),
+      person(given="Juliana", middle="", family="Gambini", "juliana.gambini@unahur.edu.ar", role = c("aut"),
+           comment = c(ORCID = "0000-0002-4534-1402")),
+      person(given="Magdalena", middle="", family="Lucini", "lucini@exa.unne.edu.ar", role = c("aut"),
+           comment = c(ORCID = "0000-0001-6615-7711")))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+LinkingTo: 
+    Rcpp
+Imports: 
+    dplyr,
+    Rcpp,
+    reshape2,
+    tibble,
+    utils,
+    stats,
+    prodlim
+Config/Needs/website: rmarkdown
+Suggests: 
+    ggplot2,
+    ggthemes,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 3.5)
+LazyData: true
+VignetteBuilder: knitr

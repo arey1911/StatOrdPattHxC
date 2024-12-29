@@ -1,0 +1,5 @@
+"0","set.seed(1234567890, kind=""Mersenne-Twister"")"
+"0",""
+"0","x1 <- mov.av(rnorm(5000), order = 31) # smoothed white noise with moving average"
+"0","x2 <- mov.av(rnorm(5000), order = 31) # smoothed white noise with moving average"
+"0","wn <- rnorm(4970) # white noise, same size as the vectors above"
