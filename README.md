@@ -1,5 +1,6 @@
 
 # StatOrdPattHxC
+## Statistical Analysis of Features from Ordinal Patterns in the Entropy-Complexity plane
 
 <!-- badges: start -->
 ![StatOrdPattHxC](man/figures/logo.png)
@@ -18,7 +19,7 @@ The goal of StatOrdPattHxC is to provide high-level functions for computing the 
 
 ## Installation
 
-You can install the development version of StatOrdPattHxC like so:
+You can install the development version of StatOrdPattHxC in R with the following commands:
 
 ``` r
 install.packages("devtools")
