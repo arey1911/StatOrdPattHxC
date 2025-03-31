@@ -23,7 +23,7 @@ You can install the development version of StatOrdPattHxC in R with the followin
 
 ``` r
 install.packages("devtools")
-devtools::install_github("arey1911/StatOrdPattHxC")
+devtools::install_github("arey1911/StatOrdPattHxC", build_vignettes = TRUE, force=TRUE)
 ```
 
 Check the package vignette for examples.
